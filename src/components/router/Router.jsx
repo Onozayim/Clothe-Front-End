@@ -4,6 +4,7 @@ import OnlyGuestRoutes from "./OnlyGuestRoutes";
 import Login from "../../pages/login/Login";
 import me from "../../services/me";
 import Store from "../../pages/Store/Store";
+import Register from "../../pages/register/Register";
 
 export default function Router({ token, email }) {
 
@@ -48,6 +49,7 @@ export default function Router({ token, email }) {
         {/* GUEST ROTUES */}
         <Route element={<OnlyGuestRoutes token={token} />}>
           <Route path="/login" element={<Login key={"login"} />} />
+          <Route path="/register" element={<Register key={"register"} />} />
         </Route>
       </Routes>
     </BrowserRouter>

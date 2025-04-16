@@ -16,7 +16,7 @@ function App() {
         dark ? "dark" : ""
       }  min-h-screen max-w-screen bg-gray-100 dark:bg-gray-900`}
     >
-      <Navbar darkChanger={setDartk} dark={dark} />
+      <Navbar darkChanger={setDartk} dark={dark} token={token} />
       <Router token={token} email={email} />
     </div>
   );

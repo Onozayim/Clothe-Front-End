@@ -2,11 +2,6 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 
-
-#root {
-  /* max-width: 1280px; */
-}
-
 @theme {
   --color-regal-blue: #243c5a;
   --text-title: 2rem;
