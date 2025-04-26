@@ -1,22 +1,26 @@
 import DefaultButton from "../../components/buttons/DefaultButton";
 import MediumText from "../../components/labels/MediumText";
 import Title from "../../components/labels/Title";
+import Label from "../../components/labels/Label";
+import RedirectButton from "../../components/buttons/RedirectButton";
+import consts from "../../consts";
+import image from "../../assets/guitarrista.jpg"
+
 
 export default function ClotheCard({ data }) {
+  console.log(data);
   return (
     <div className="w-9/10 max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 shadow-md dark:shadow-gray-700 dark:border-gray-700 m-auto">
-      <a href="#">
-        <img
-          className="p-8 rounded-t-lg"
-          src={`http://localhost:8080/v1/public/clothe/image/${data.id}`}
-          alt="product image"
-        />
-      </a>
+      <img
+        className="p-8 rounded-t-lg"
+        src={`${consts.api_url}v1/public/clothe/image/${data.id}`}
+        alt="product image"
+      />
       <div className="px-5 pb-5">
-        <a href="#">
-          <MediumText>{data.title}</MediumText>
-        </a>
-        <div className="flex items-center mt-2.5 mb-5">
+        <Label>
+          <MediumText extraClass={"text-center"}>{data.title}</MediumText>
+        </Label>
+        {/* <div className="flex items-center mt-2.5 mb-5">
           <div className="flex items-center space-x-1 rtl:space-x-reverse">
             <svg
               className="w-4 h-4 text-yellow-300"
@@ -67,12 +71,15 @@ export default function ClotheCard({ data }) {
           <span className="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-sm dark:bg-blue-200 dark:text-blue-800 ms-3">
             5.0
           </span>
-        </div>
-        <div className="flex items-center justify-between">
+        </div> */}
+        <div className="flex items-center justify-between mt-2.5">
           <Title>${data.price}</Title>
-          <DefaultButton type={"submit"} extraClass="!w-fit px-8 mt-3">
-            Add to cart
-          </DefaultButton>
+          <RedirectButton
+            url={"/clothe/" + data.id}
+            extraClass="!w-fit px-8 mt-3"
+          >
+            Ordenar
+          </RedirectButton>
         </div>
       </div>
     </div>

@@ -6,13 +6,15 @@ import Input from "../../components/inputs/Input";
 import Label from "../../components/labels/Label";
 import Title from "../../components/labels/Title";
 import ErrorLabel from "../../components/labels/ErrorLabel";
-import { useNavigate } from "react-router-dom";
+import Href from "../../components/router/Href";
+
+import image from "../../assets/bg-image.jpg";
 
 export default function Register() {
   const [errors, setErrors] = useState([]);
-  const navigate = useNavigate();
+  const [error, setError] = useState("");
 
-  console.log("register");
+  console.log(image);
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -21,30 +23,33 @@ export default function Register() {
       password: e.target.password.value,
       email: e.target.email.value,
       fullName: e.target.fullName.value,
-      confirmPassword: e.target.confirmPassword.value
+      confirmPassword: e.target.confirmPassword.value,
     };
 
     const [serviceErrors, data] = await registerService(loginBody);
 
-    console.log([serviceErrors, data]);
-
     if (serviceErrors) {
-      setErrors(serviceErrors);
+      if (Array.isArray(serviceErrors)) setErrors(serviceErrors);
+      else setError(serviceErrors);
+
       return;
     }
 
-    if (data.status == "OK") {
+    if (data?.status == "OK") {
       localStorage.setItem("jwt-token", data.data.token);
-      navigate("/");
+      window.location.href = "/";
     }
   };
 
   return (
     <>
       <form onSubmit={handleRegister}>
-        <div className="flex flex-col items-center h-full justify-center ">
+        <div
+          style={{ backgroundImage: `url('${image}')` }}
+          className="flex flex-col items-center min-h-screen justify-center bg-center bg-cover lg:!bg-none"
+        >
           <div className="flex rounded-lg w-full w-full items-center ">
-            <div className=" lg:block lg:w-2/5 px-6 mx-auto absolute lg:relative z-10 m-auto left-0 right-0 ">
+            <div className=" lg:block lg:w-2/5 px-6 mx-auto block lg:relative z-10 mt-36 mb-36  left-0 right-0 top-1/6">
               <div
                 className={clsx(
                   "space-y-6 rounded-xl w-full shadow-xl opacity-95  p-6 sm:p-10",
@@ -64,21 +69,27 @@ export default function Register() {
                 <Input name={"password"} type={"password"} key={"password"} />
 
                 <Label>Confirm password</Label>
-                <Input name={"confirmPassword"} type={"password"} key={"confirmPassword"} />
+                <Input
+                  name={"confirmPassword"}
+                  type={"password"}
+                  key={"confirmPassword"}
+                />
 
-                {errors && 
-                    errors.map(error => (
-                        <ErrorLabel>{error}</ErrorLabel>
-                    ))
-                }
+                {errors &&
+                  errors.map((item) => <ErrorLabel>{item}</ErrorLabel>)}
+                {error && <ErrorLabel>{error}</ErrorLabel>}
 
                 <DefaultButton type={"submit"}>Register</DefaultButton>
+                <Href url={"/register"}>¿Ya tienes cuenta? Inicia sesion</Href>
               </div>
             </div>
-            <div className="lg:block lg:w-3/5 h-screen w-full absolute bg-red-700 lg:relative top-0 left-0 z-0 bg-[url('https://images4.alphacoders.com/236/236764.jpg')] bg-center bg-cover"></div>
+            <div
+              style={{ backgroundImage: `url('${image}')` }}
+              className={`lg:block lg:w-3/5 h-screen w-full hidden lg:relative bg-center bg-cover`}
+            ></div>
           </div>
         </div>
       </form>
-    </> 
+    </>
   );
 }

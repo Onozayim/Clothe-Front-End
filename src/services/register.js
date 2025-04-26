@@ -6,7 +6,10 @@ export const registerService = async (body) => {
 
     return [undefined, res.data];
   } catch (e) {
-    return [e.response.data.data.errors, undefined];
+    console.log(e);
+    return [
+      e.response.data?.data?.errors || e.response.data?.message,
+      undefined,
+    ];
   }
 };
-

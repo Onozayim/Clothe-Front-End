@@ -5,9 +5,9 @@ import Login from "../../pages/login/Login";
 import me from "../../services/me";
 import Store from "../../pages/Store/Store";
 import Register from "../../pages/register/Register";
+import ClothePage from "../../pages/clothe/ClothePage";
 
 export default function Router({ token, email }) {
-
   const getMe = async () => {
     console.log("MEMEMEM");
     await me();
@@ -29,10 +29,9 @@ export default function Router({ token, email }) {
           }
         />
 
-        <Route
-          path="/store"
-          element={<Store />}
-        />
+        <Route path="/store" element={<Store />} />
+
+        <Route path="/clothe/:id" element={<ClothePage />} />
 
         {/* PROTECTED ROUTES */}
         <Route element={<ProtectedRoutes token={token} />}>
