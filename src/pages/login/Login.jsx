@@ -9,6 +9,7 @@ import ErrorLabel from "../../components/labels/ErrorLabel";
 import Href from "../../components/router/Href";
 
 import image from "../../assets/bg-image.jpg";
+// import api from "../../configs/axiosConfig"
 
 export default function Login() {
   const [error, setError] = useState("");
@@ -34,6 +35,7 @@ export default function Login() {
 
     if (data?.status == "OK") {
       localStorage.setItem("jwt-token", data.data.token);
+      // api.defaults.headers.common["Authorization"] = "Bearer " + data.data.token;
       window.location.href = "/";
     }
   };

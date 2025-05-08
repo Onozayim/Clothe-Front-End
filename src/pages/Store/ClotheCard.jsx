@@ -5,17 +5,14 @@ import Label from "../../components/labels/Label";
 import RedirectButton from "../../components/buttons/RedirectButton";
 import consts from "../../consts";
 import image from "../../assets/guitarrista.jpg"
+import CLotheImage from "../../components/images/ClotheImage";
 
 
 export default function ClotheCard({ data }) {
   console.log(data);
   return (
-    <div className="w-9/10 max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 shadow-md dark:shadow-gray-700 dark:border-gray-700 m-auto">
-      <img
-        className="p-8 rounded-t-lg"
-        src={`${consts.api_url}v1/public/clothe/image/${data.id}`}
-        alt="product image"
-      />
+    <div className="w-9/10 max-w-sm bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:shadow-gray-700 dark:border-gray-700 m-auto">
+      <CLotheImage  id={data.id}/>
       <div className="px-5 pb-5">
         <Label>
           <MediumText extraClass={"text-center"}>{data.title}</MediumText>

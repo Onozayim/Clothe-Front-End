@@ -6,6 +6,7 @@ import me from "../../services/me";
 import Store from "../../pages/Store/Store";
 import Register from "../../pages/register/Register";
 import ClothePage from "../../pages/clothe/ClothePage";
+import Cart from "../../pages/cart/Cart";
 
 export default function Router({ token, email }) {
   const getMe = async () => {
@@ -43,6 +44,8 @@ export default function Router({ token, email }) {
               </div>
             }
           />
+
+          <Route path="/cart" element={<Cart />} />
         </Route>
 
         {/* GUEST ROTUES */}

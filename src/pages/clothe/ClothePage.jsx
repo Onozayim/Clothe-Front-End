@@ -8,44 +8,70 @@ import getClotheApi from "../../services/getClothe";
 import Input from "../../components/inputs/Input";
 
 import consts from "../../consts";
+import { addToCartService } from "../../services/addToCart";
 
 const sizes = {
-  s: "Chico", 
-  m: "Mediana", 
-  b: "Grande", 
+  s: "Chico",
+  m: "Mediana",
+  b: "Grande",
 };
 
 const stocks = {
-  s: 0, 
-  m: 0, 
-  b: 0, 
+  s: 0,
+  m: 0,
+  b: 0,
+};
+
+const stocksId = {
+  s: 0,
+  m: 0,
+  b: 0,
 };
 
 export default function ClothePage() {
   const params = useParams();
   const [clothe, setClothe] = useState(null);
+
   const [stock, setStock] = useState(0);
   const [stockLimit, setStockLimit] = useState(0);
+  const [stockId, setStockId] = useState(0);
+
+  const addToCart = async () => {
+    console.log("Add to Cart");
+
+    const [serviceError, data] = await addToCartService({
+      stock: 20,
+      stock_id: stockId,
+    });
+
+    if (serviceError) alert(serviceError.message);
+
+    if (data.status == "OK") window.location.href = "/";
+  };
 
   const getClothe = async () => {
     const [serviceError, data] = await getClotheApi(params.id);
     setClothe(data.data);
-    console.log(data.data);
 
-    data.data.stocks.forEach(item => {
+    data.data.stocks.forEach((item) => {
       stocks[item.size] = item.stock;
-    })
-    
-    setStockLimit(stocks['s']);
+      stocksId[item.size] = item.id;
+    });
+
+    setStockLimit(stocks["s"]);
+    setStockId(stocksId["s"]);
   };
 
   const handleStockLimitChange = (e) => {
     setStockLimit(stocks[e.target.value]);
-  }
+    setStockId(stocksId[e.target.value]);
+
+    console.log(stocksId[e.target.value]);
+  };
 
   const handleStockChange = (e) => {
     setStock(e.target.value);
-  }
+  };
 
   useEffect(() => {
     getClothe();
@@ -109,7 +135,9 @@ export default function ClothePage() {
                   <Label extraClassName="!text-xl">/{stockLimit}</Label>
                 </div>
               </div>
-              <DefaultButton type={"submit"}>Add to cart</DefaultButton>
+              <DefaultButton onClick={addToCart} type={"submit"}>
+                Add to cart
+              </DefaultButton>
             </div>
           </div>
         </div>

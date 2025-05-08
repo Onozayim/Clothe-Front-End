@@ -22,7 +22,6 @@ const AuthProvider = ({ children }) => {
         setToken(null);
         setEmail(null);
       } else {
-        api.defaults.headers.common["Authorization"] = "Bearer " + token;
         setEmail(decoded.email);
       }
     }
