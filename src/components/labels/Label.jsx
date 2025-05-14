@@ -1,6 +1,10 @@
 import clsx from "clsx";
 
-export default function Label({ children, extraClassName = "" }) {
+export default function Label({
+  children,
+  extraClassName = "",
+  onClick = function () {},
+}) {
   return (
     <label
       className={clsx(
@@ -9,6 +13,7 @@ export default function Label({ children, extraClassName = "" }) {
         "text-gray-700",
         extraClassName
       )}
+      onClick={onClick}
     >
       {children}
     </label>
