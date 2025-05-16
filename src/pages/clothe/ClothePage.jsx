@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Title from "../../components/labels/Title";
 import Label from "../../components/labels/Label";
 import DefaultButton from "../../components/buttons/DefaultButton";
@@ -9,6 +9,7 @@ import Input from "../../components/inputs/Input";
 
 import consts from "../../consts";
 import { addToCartService } from "../../services/addToCart";
+import Modal from "../../components/modals/Modal";
 
 const sizes = {
   s: "Chico",
@@ -31,22 +32,23 @@ const stocksId = {
 export default function ClothePage() {
   const params = useParams();
   const [clothe, setClothe] = useState(null);
-
+  const [showModal, setShowModal] = useState(false);
   const [stock, setStock] = useState(0);
   const [stockLimit, setStockLimit] = useState(0);
   const [stockId, setStockId] = useState(0);
+  const navigate = useNavigate();
 
   const addToCart = async () => {
     console.log("Add to Cart");
 
     const [serviceError, data] = await addToCartService({
-      stock: 20,
+      stock: stock,
       stock_id: stockId,
     });
 
     if (serviceError) alert(serviceError.message);
 
-    if (data.status == "OK") window.location.href = "/";
+    if (data.status == "OK") navigate("/store");
   };
 
   const getClothe = async () => {
@@ -135,13 +137,15 @@ export default function ClothePage() {
                   <Label extraClassName="!text-xl">/{stockLimit}</Label>
                 </div>
               </div>
-              <DefaultButton onClick={addToCart} type={"submit"}>
+              <DefaultButton onClick={() => setShowModal(true)} type={"submit"}>
                 Add to cart
               </DefaultButton>
             </div>
           </div>
         </div>
       </div>
+
+      <Modal hidden={showModal} close={()=> setShowModal(false)} action={addToCart} message={"Estas seguro que quieres agregarlo al carrito?"} type={"info"} />
     </>
   );
 }
