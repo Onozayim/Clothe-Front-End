@@ -12,10 +12,10 @@ export default function Modal({ hidden, close, action = null, message, type }) {
         !hidden ? "hidden" : ""
       }`}
     >
-      <div className="absolute inset-0 bg-black opacity-75"></div>
+      <div className="absolute inset-0 bg-gray-900 opacity-75 "></div>
 
       <div className="relative z-10 p-4 w-full max-w-md">
-        <div className="bg-white rounded-lg shadow-lg dark:bg-gray-700">
+        <div className="bg-white rounded-lg shadow-lg dark:bg-gray-800 shadow-xl dark:shadow-gray-700 shadow-gray-400">
           <button
             type="button"
             onClick={close}

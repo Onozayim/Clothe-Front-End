@@ -37,16 +37,24 @@ export default function ClothePage() {
   const [stockLimit, setStockLimit] = useState(0);
   const [stockId, setStockId] = useState(0);
   const navigate = useNavigate();
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const addToCart = async () => {
     console.log("Add to Cart");
+    setShowModal(false);
 
     const [serviceError, data] = await addToCartService({
       stock: stock,
       stock_id: stockId,
     });
 
-    if (serviceError) alert(serviceError.message);
+    if (serviceError) {
+      setErrorMessage(serviceError.message);
+      setShowErrorModal(true);
+
+      return;
+    }
 
     if (data.status == "OK") navigate("/store");
   };
@@ -145,7 +153,20 @@ export default function ClothePage() {
         </div>
       </div>
 
-      <Modal hidden={showModal} close={()=> setShowModal(false)} action={addToCart} message={"Estas seguro que quieres agregarlo al carrito?"} type={"info"} />
+      <Modal
+        hidden={showModal}
+        close={() => setShowModal(false)}
+        action={addToCart}
+        message={"Estas seguro que quieres agregarlo al carrito?"}
+        type={"info"}
+      />
+
+      <Modal
+        hidden={showErrorModal}
+        close={() => setShowErrorModal(false)}
+        message={errorMessage}
+        type={"error"}
+      />
     </>
   );
 }

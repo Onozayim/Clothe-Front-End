@@ -3,16 +3,31 @@ import Label from "../../components/labels/Label";
 import Title from "../../components/labels/Title";
 import { MdDelete } from "react-icons/md";
 import { deleteFromCart } from "../../services/deleteFromCart";
+import Modal from "../../components/modals/Modal";
+import { useState } from "react";
 
-export default function CartElement({ item, price, setPrice, items, setItems }) {
+export default function CartElement({
+  item,
+  price,
+  setPrice,
+  items,
+  setItems,
+}) {
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
   const deleteItem = async (item) => {
-    const [errors, data] = await deleteFromCart(item.id);
+    const [serviceError, data] = await deleteFromCart(item.id);
 
-    if(errors)
-      alert(errors.message);
+    if (serviceError) {
+      setErrorMessage(serviceError.message);
+      setShowErrorModal(true);
 
-    if(data.status == "OK") {
-      setItems(items.filter(cart => cart.id != item.id))
+      return;
+    }
+
+    if (data.status == "OK") {
+      setItems(items.filter((cart) => cart.id != item.id));
       setPrice(price - item.totalPrice);
     }
   };
@@ -36,11 +51,17 @@ export default function CartElement({ item, price, setPrice, items, setItems }) 
             onClick={() => deleteItem(item)}
             extraClassName="!text-xl block w-full"
           >
-            
-            <MdDelete className="text-3xl"/>
+            <MdDelete className="text-3xl" />
           </Label>
         </div>
       </div>
+
+      <Modal
+        hidden={showErrorModal}
+        close={() => setShowErrorModal(false)}
+        message={errorMessage}
+        type={"error"}
+      />
     </>
   );
 }

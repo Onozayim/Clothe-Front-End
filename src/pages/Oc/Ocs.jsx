@@ -2,15 +2,23 @@ import { useEffect, useState } from "react";
 import getOcsMethod from "../../services/getOcs";
 import clsx from "clsx";
 import OcElement from "./OcElement";
+import Modal from "../../components/modals/Modal";
 
 export default function Ocs() {
   const [ocs, setOcs] = useState([]);
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
   const getOcs = async () => {
     const [serviceError, data] = await getOcsMethod();
 
-    if (serviceError) alert(serviceError.message);
+    if (serviceError) {
+      setErrorMessage(serviceError.message);
+      setShowErrorModal(true);
 
-    console.log(data.data);
+      return;
+    }
+
     if (data.status == "OK") setOcs(data.data);
   };
 
@@ -28,12 +36,19 @@ export default function Ocs() {
           "bg-white border border-gray-200"
         )}
       >
-        {ocs.map(oc => {
-            return oc.ocDetalles.map(item => {
-                return  <OcElement item={item} />
-            })
+        {ocs.map((oc) => {
+          return oc.ocDetalles.map((item) => {
+            return <OcElement item={item} />;
+          });
         })}
       </div>
+
+      <Modal
+        hidden={showErrorModal}
+        close={() => setShowErrorModal(false)}
+        message={errorMessage}
+        type={"error"}
+      />
     </>
   );
 }
