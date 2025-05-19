@@ -13,7 +13,7 @@ import Modal from "../../components/modals/Modal";
 
 const sizes = {
   s: "Chico",
-  m: "Mediana",
+  m: "Mediano",
   b: "Grande",
 };
 
@@ -87,6 +87,8 @@ export default function ClothePage() {
     getClothe();
   }, []);
 
+  if(!clothe) return null;
+
   return (
     <>
       <div className="flex flex-col items-center h-full justify-center ">
@@ -110,6 +112,7 @@ export default function ClothePage() {
               )}
             >
               <Title>{clothe?.title}</Title>
+              <Title extraClassName={"!text-left"}>${clothe?.price}</Title>
 
               <Label>{clothe?.description}</Label>
               <br />

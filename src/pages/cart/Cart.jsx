@@ -60,7 +60,7 @@ export default function Cart() {
       <div className="h-40"></div>
       <div
         className={clsx(
-          "m-auto w-4/5 rounded-lg shadow-md",
+          "m-auto w-4/5 sm:min-w-150 rounded-lg shadow-md",
           "dark:bg-gray-800 dark:shadow-gray-700 dark:border-gray-700",
           "bg-white border border-gray-200"
         )}
@@ -74,6 +74,7 @@ export default function Cart() {
               setPrice={setPrice}
               items={cartElements}
               setItems={setCartElements}
+              totalPrice={price}
             />
           );
         })}
