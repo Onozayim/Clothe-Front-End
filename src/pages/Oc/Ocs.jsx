@@ -3,6 +3,7 @@ import getOcsMethod from "../../services/getOcs";
 import clsx from "clsx";
 import OcElement from "./OcElement";
 import Modal from "../../components/modals/Modal";
+import Title from "../../components/labels/Title";
 
 export default function Ocs() {
   const [ocs, setOcs] = useState([]);
@@ -11,6 +12,8 @@ export default function Ocs() {
 
   const getOcs = async () => {
     const [serviceError, data] = await getOcsMethod();
+
+    console.log(data.data);
 
     if (serviceError) {
       setErrorMessage(serviceError.message);
@@ -37,11 +40,20 @@ export default function Ocs() {
         )}
       >
         {ocs.map((oc) => {
-          return oc.ocDetalles.map((item) => {
-            return <OcElement item={item} />;
-          });
-        })}
+          return (
+            <>
+            <Title>{oc.createdAt}</Title>
+            {oc.ocDetalles.map((item) => {
+              return <OcElement item={item} />
+            })}
+            </>
+          //   {oc.ocDetalles.map((item) => {
+          //   return <OcElement item={item} />;
+          // })});
+          )})}
       </div>
+
+      <div className="h-24"></div>
 
       <Modal
         hidden={showErrorModal}

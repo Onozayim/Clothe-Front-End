@@ -8,6 +8,7 @@ export default function Input({
   onChange = function () {},
   maxValue = null,
   minValue = null,
+  placeholder = null
 }) {
   return (
     <input
@@ -21,6 +22,7 @@ export default function Input({
       name={name}
       value={value}
       onChange={onChange}
+      placeholder={placeholder}
       {...(maxValue ? { max: maxValue } : "")}
       {...(minValue || minValue === 0 ? { min: minValue } : "")}
     />

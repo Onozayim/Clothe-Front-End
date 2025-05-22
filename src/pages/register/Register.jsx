@@ -7,14 +7,14 @@ import Label from "../../components/labels/Label";
 import Title from "../../components/labels/Title";
 import ErrorLabel from "../../components/labels/ErrorLabel";
 import Href from "../../components/router/Href";
+import { FaPhoneAlt } from "react-icons/fa";
 
 import image from "../../assets/bg-image.jpg";
 
 export default function Register() {
   const [errors, setErrors] = useState([]);
   const [error, setError] = useState("");
-
-  console.log(image);
+  const [phoneNumber, setPhoneNumber] = useState("");
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -39,6 +39,27 @@ export default function Register() {
       localStorage.setItem("jwt-token", data.data.token);
       window.location.href = "/";
     }
+  };
+
+  const handlePhoneNumberChange = (e) => {
+    if (e.target.value.length > phoneNumber.length) {
+      if (phoneNumber == "") setPhoneNumber("(+52) " + e.target.value);
+      else if (e.target.value.length == 10)
+        setPhoneNumber(
+          e.target.value.substring(0, 9) + "-" + e.target.value[9]
+        );
+      else if (e.target.value.length == 14)
+        setPhoneNumber(
+          e.target.value.substring(0, 13) + "-" + e.target.value[13]
+        );
+      else if (e.target.value.length >= 19) return;
+      else setPhoneNumber(e.target.value);
+    } else {
+      if (e.target.value.length <= 5) return;
+      setPhoneNumber(e.target.value);
+    }
+
+    console.log(...(phoneNumber + phoneNumber));
   };
 
   return (
@@ -74,6 +95,22 @@ export default function Register() {
                   type={"password"}
                   key={"confirmPassword"}
                 />
+
+                <Label>Número télefonico</Label>
+                <div class="relative">
+                  <div class="absolute inset-y-0 start-0 top-0 flex items-center ps-3.5 pointer-events-none">
+                    <FaPhoneAlt className="text-gray-600 dark:text-gray-300" />
+                  </div>
+                  <Input
+                    type={"text"}
+                    name={"phoneNumber"}
+                    key={"phoneNumber"}
+                    extraClass="pl-10"
+                    placeholder={"(+52) 123-456-7890"}
+                    value={phoneNumber}
+                    onChange={handlePhoneNumberChange}
+                  />
+                </div>
 
                 {errors &&
                   errors.map((item) => <ErrorLabel>{item}</ErrorLabel>)}
